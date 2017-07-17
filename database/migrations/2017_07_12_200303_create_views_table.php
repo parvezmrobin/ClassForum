@@ -24,7 +24,7 @@ class CreateViewsTable extends Migration
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->foreign('thread_id')
-                ->references('id')->on('thread')
+                ->references('id')->on('threads')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
         });

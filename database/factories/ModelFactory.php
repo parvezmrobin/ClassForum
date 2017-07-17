@@ -17,8 +17,61 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 
     return [
         'name' => $faker->name,
+        'bio' => $faker->paragraph,
+        'image' => $faker->imageUrl(),
         'email' => $faker->unique()->safeEmail,
+        'sex' => array_random(['Male', 'Female', 'Other']),
+        'is_approved' => rand(0, 1),
         'password' => $password ?: $password = bcrypt('secret'),
         'remember_token' => str_random(10),
     ];
 });
+
+$factory->define(App\Channel::class, function(Faker\Generator $faker) {
+    return [
+        'channel' => $faker->word,
+    ];
+});
+
+$factory->define(App\Thread::class, function(Faker\Generator $faker) {
+    $users = App\User::all();
+    $channels = App\Channel::all();
+    return [
+        'title' => $faker->sentence,
+        'description' => $faker->realText(),
+        'user_id' => $users->random()->id,
+        'channel_id' => $channels->random()->id
+    ];
+});
+
+$factory->define(App\Answer::class, function(Faker\Generator $faker) {
+    $users = App\User::all();
+    $threads = App\Thread::all();
+    return [
+        'answer' => $faker->sentence,
+        'user_id' => $users->random()->id,
+        'thread_id' => $threads->random()->id,
+    ];
+});
+
+$factory->define(App\Reply::class, function(Faker\Generator $faker) {
+    $users = App\User::all();
+    $answers = App\Thread::all();
+    return [
+        'reply' => $faker->sentence,
+        'user_id' => $users->random()->id,
+        'answer_id' => $answers->random()->id,
+    ];
+});
+
+$factory->define(App\EditHistory::class, function(Faker\Generator $faker) {
+    $threads = App\Thread::all();
+    return [
+        'title' => $faker->sentence,
+        'description' => $faker->realText(),
+        'thread_id' => $threads->random()->id,
+    ];
+});
+
+
+
