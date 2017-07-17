@@ -21,9 +21,15 @@ Route::group(['middleware' => ['web']],function(){
         'as' => 'home',
         'middleware' => 'auth'
     ]);
-    Route::post('/ShowThread',[
+    Route::get('/ShowThread',[
         'uses' => 'ThreadController@Show_Thread',
         'as' => 'threads',
+        'middleware' => 'auth'
+    ]);
+
+    Route::get('/ShowChannel',[
+        'uses' => 'ChannelController@Show_Channel',
+        'as' => 'channels',
         'middleware' => 'auth'
     ]);
 
