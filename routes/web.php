@@ -11,10 +11,22 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::group(['middleware' => ['web']],function(){
+    Route::get('/',function(){
+        return view('welcome');
+    })->name('home');
+
+    Route::get('/home',[
+        'uses' => 'ThreadController@getThread',
+        'as' => 'home',
+        'middleware' => 'auth'
+    ]);
+    Route::post('/ShowThread',[
+        'uses' => 'ThreadController@Show_Thread',
+        'as' => 'threads',
+        'middleware' => 'auth'
+    ]);
+
+
+
 });
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
