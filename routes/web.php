@@ -11,28 +11,13 @@
 |
 */
 
-Route::group(['middleware' => ['web']],function(){
-    Route::get('/',function(){
-        return view('welcome');
-    })->name('home');
+Auth::routes();
 
-    Route::get('/home',[
-        'uses' => 'ThreadController@getThread',
-        'as' => 'home',
-        'middleware' => 'auth'
-    ]);
-    Route::get('/ShowThread',[
-        'uses' => 'ThreadController@Show_Thread',
-        'as' => 'threads',
-        'middleware' => 'auth'
-    ]);
-
-    Route::get('/ShowChannel',[
-        'uses' => 'ChannelController@Show_Channel',
-        'as' => 'channels',
-        'middleware' => 'auth'
-    ]);
+Route::get('/home', 'ThreadController@index')->middleware('auth');
+Route::get('/', 'ThreadController@index')->middleware('auth');
 
 
-
-});
+// Api
+// TODO implement follow/unfollow channel
+Route::put('api/follow/channel', 'ChannelController@follow')->middleware('auth');
+Route::put('api/unfollow/channel', 'ChannelController@unfollow')->middleware('auth');
