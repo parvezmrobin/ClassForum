@@ -39,6 +39,15 @@ class ThreadController extends Controller
         return view('home')->withThreads($threads)->withChannels($channels);
     }
 
+    public function show(Thread $thread, Channel $channel)
+    {
+        if ($channel->exists) {
+            $threads = $channel->threads()->latest()->get();
+        }
+        return view('threads.show',compact('thread'),compact('threads'));
+
+    }
+
 
 
     protected function getThreads(Channel $channel, ThreadFilters $filters)
