@@ -15,6 +15,7 @@ Auth::routes();
 
 Route::get('/home', 'ThreadController@index')->middleware('auth');
 Route::get('/', 'ThreadController@index')->middleware('auth');
+Route::get('/thread/{thread}', 'ThreadController@show')->middleware('auth');
 
 
 // Api

@@ -18,7 +18,7 @@ class ThreadController extends Controller
         if ($channel) {
             $conditions[] = ['channel_id', $channel];
         }
-        if(is_null($page)) {
+        if (is_null($page)) {
             $page = 0;
         }
         $threads = Thread::where($conditions)
@@ -29,7 +29,7 @@ class ThreadController extends Controller
         $followedChannels = $user->followedChannels;
 
         foreach ($channels as $channel) {
-            if($followedChannels->contains($channel)) {
+            if ($followedChannels->contains($channel)) {
                 $channel->isFollowed = true;
             } else {
                 $channel->isFollowed = false;
@@ -39,25 +39,14 @@ class ThreadController extends Controller
         return view('home')->withThreads($threads)->withChannels($channels);
     }
 
-    public function show(Thread $thread, Channel $channel)
+    public function show(Thread $thread)
     {
-        if ($channel->exists) {
-            $threads = $channel->threads()->latest()->get();
-        }
-        return view('threads.show',compact('thread'),compact('threads'));
+        $otherThreads = $thread->channel->threads()->latest()->take(10)->get();
 
-    }
-
-
-
-    protected function getThreads(Channel $channel, ThreadFilters $filters)
-    {
-        $threads = Thread::latest()->filter($filters);
-
-        if ($channel->exists) {
-            $threads->where('channel_id', $channel->id);
-        }
-
-        return $threads->get();
+        return view('thread')
+            ->with([
+                'thread' => $thread,
+                'otherThreads' => $otherThreads
+            ]);
     }
 }
