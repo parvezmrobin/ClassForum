@@ -11,8 +11,8 @@ class Reply extends Model
         return $this->belongsTo('App\User');
     }
 
-    public function thread()
+    public function answer()
     {
-        return $this->belongsTo('App\Thread');
+        return $this->belongsTo('App\Answer');
     }
 }

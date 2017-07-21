@@ -49,46 +49,58 @@
 @endsection
 
 @section('content')
-
-    <div class="row" id="vm" xmlns:v-on="http://www.w3.org/1999/xhtml">
-        <div class="col-md-8">
-            @foreach($threads as $thread)
-                <div class="post-preview">
-                    <a href="{{url('thread/' . $thread->id)}}">
-                        <h2 class="post-title">
-                            {{$thread->title}}
-                        </h2>
-                        <h3 class="post-subtitle">
-                            {{$thread->description}}
-                        </h3>
-                    </a>
-                    <p class="post-meta">Posted by <a href="#">{{$thread->user->name}}</a>
-                        {{(new Carbon\Carbon($thread->created_at))->diffForHumans(Carbon\Carbon::now())}}
-                    </p>
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header class="intro-header" style="background-image: url('img/home-bg.jpg')">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="site-heading">
+                        <h1>Class Forum</h1>
+                        <hr class="small">
+                        <span class="subheading">A Place to Resolve the unresolved</span>
+                    </div>
                 </div>
-                <hr>
-            @endforeach
-
-            {{$threads->links()}}
-        <!-- Pager -->
-            {{--<ul class="pager">--}}
-            {{--<li class="next">--}}
-            {{--<a href="#">Older Posts &rarr;</a>--}}
-            {{--</li>--}}
-            {{--</ul>--}}
+            </div>
         </div>
-        <div class="col-md-4">
-            <h1 class="post-heading" style="margin-top: 30px;">Channels</h1>
-            <hr class="small">
-            <ul class="list-group">
+    </header>
 
-                <li v-for="channel in channels" class="list-group-item">
-                    <a :href="'./home?channel=' + channel.id">@{{ channel.channel }}</a>
-                    (<a v-if="channel.isFollowed" href="#" v-on:click="follow(channel.id)">Follow</a>)
-                    (<a v-else href="#" v-on:click="unfollow(channel.id)">Unfollow</a>)
-                </li>
+    <!-- Main Content -->
+    <div class="container">
+        <div class="row" id="vm" xmlns:v-on="http://www.w3.org/1999/xhtml">
+            <div class="col-md-8">
+                @foreach($threads as $thread)
+                    <div class="post-preview">
+                        <a href="{{url('thread/' . $thread->id)}}">
+                            <h2 class="post-title">
+                                {{$thread->title}}
+                            </h2>
+                            <h3 class="post-subtitle">
+                                {{$thread->description}}
+                            </h3>
+                        </a>
+                        <p class="post-meta">Posted by <a href="#">{{$thread->user->name}}</a>
+                            {{(new Carbon\Carbon($thread->created_at))->diffForHumans(Carbon\Carbon::now())}}
+                        </p>
+                    </div>
+                    <hr>
+                @endforeach
 
-            </ul>
+                {{$threads->links()}}
+            </div>
+            <div class="col-md-4">
+                <h1 class="post-heading" style="margin-top: 30px;">Channels</h1>
+                <hr class="small">
+                <ul class="list-group">
+
+                    <li v-for="channel in channels" class="list-group-item">
+                        <a :href="'./home?channel=' + channel.id">@{{ channel.channel }}</a>
+                        (<a v-if="channel.isFollowed" href="#" v-on:click="follow(channel.id)">Follow</a>)
+                        (<a v-else href="#" v-on:click="unfollow(channel.id)">Unfollow</a>)
+                    </li>
+
+                </ul>
+            </div>
         </div>
     </div>
 
