@@ -4,6 +4,13 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property int id
+ * @property string title
+ * @property string description
+ * @property int user_id
+ * @property int channel_id
+ */
 class Thread extends Model
 {
     public function channel()
