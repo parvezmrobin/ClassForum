@@ -47,20 +47,40 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
-                <li>
-                    <a href="{{url('/')}}">Home</a>
-                </li>
-                <li>
-                    <a href="{{url('/create')}}">Create</a>
-                </li>
+                @if(Auth::check())
+                    <li>
+                        <a href="{{url('/')}}">
+                            <span class="glyphicon glyphicon-home"></span>
+                            Home
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{url('/create')}}">
+                            <span class="glyphicon glyphicon-plus"></span>
+                            Create
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ url('/logout') }}"
+                           onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                            <span class="glyphicon glyphicon-log-out"></span>
+                            Logout
+                        </a>
 
+                        <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+                            {{ csrf_field() }}
+                        </form>
+                    </li>
+                @else
+                    <li><a href="{{ route('login') }}">Login</a></li>
+                    <li><a href="{{ route('register') }}">Register</a></li>
+                @endif
             </ul>
         </div>
         <!-- /.navbar-collapse -->
     </div>
     <!-- /.container -->
 </nav>
-
 
 
 @yield('content')
@@ -107,10 +127,6 @@
 
 <!-- jQuery -->
 <script src="{{asset('js/app.js')}}"></script>
-
-<!-- Contact Form JavaScript -->
-<script src="{{asset('js/jqBootstrapValidation.js')}}"></script>
-<script src="{{asset('js/contact_me.js')}}"></script>
 
 <!-- Theme JavaScript -->
 <script src="{{asset('js/clean-blog.js')}}"></script>

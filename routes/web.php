@@ -13,12 +13,19 @@
 
 Auth::routes();
 
-Route::get('/home', 'ThreadController@index')->middleware('auth');
-Route::get('/', 'ThreadController@index')->middleware('auth');
-Route::get('/thread/{thread}', 'ThreadController@show')->middleware('auth');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/home', 'ThreadController@index');
+    Route::get('/', 'ThreadController@index');
+    Route::get('/thread/{thread}', 'ThreadController@show');
 
 
-// Api
-// TODO implement follow/unfollow channel
-Route::put('api/follow/channel', 'ChannelController@follow')->middleware('auth');
-Route::put('api/unfollow/channel', 'ChannelController@unfollow')->middleware('auth');
+    // Api
+    Route::post('ajax/answer', 'AnswerController@store');
+    Route::delete('ajax/answer/{answer}', 'AnswerController@destroy');
+
+    Route::post('ajax/reply', 'ReplyController@store');
+    Route::delete('ajax/reply/{reply}', 'ReplyController@destroy');
+    // TODO implement follow/unfollow channel
+    Route::post('ajax/follow/channel', 'ChannelController@follow');
+    Route::delete('ajax/unfollow/channel', 'ChannelController@unfollow');
+});
