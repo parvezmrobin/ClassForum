@@ -16,6 +16,11 @@ Auth::routes();
 Route::get('/home', 'ThreadController@index')->middleware('auth');
 Route::get('/', 'ThreadController@index')->middleware('auth');
 
+Route::get('/threads/{channel}/{thread}/replies', 'RepliesController@index');
+Route::post('/threads/{channel}/{thread}/replies', 'RepliesController@store');
+Route::patch('/replies/{reply}', 'RepliesController@update');
+Route::delete('/replies/{reply}', 'RepliesController@destroy');
+
 
 // Api
 // TODO implement follow/unfollow channel
