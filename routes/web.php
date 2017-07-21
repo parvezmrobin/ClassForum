@@ -20,6 +20,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/thread', "ThreadController@store");
     Route::get('/thread/{thread}', 'ThreadController@show')->name('thread.show');
 
+
     // Api
     Route::post('ajax/answer', 'AnswerController@store');
     Route::delete('ajax/answer/{answer}', 'AnswerController@destroy');
