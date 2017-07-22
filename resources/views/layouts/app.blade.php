@@ -55,7 +55,10 @@
                 <span class="sr-only">Toggle navigation</span>
                 Menu <i class="fa fa-bars"></i>
             </button>
-            <a class="navbar-brand" href="{{url('/')}}">Class Forum</a>
+            <a class="navbar-brand" href="{{url('/')}}">
+                <img class="img-responsive" style="width: 25px; display: inline; cursor: pointer;" src="{{asset('favicon.ico')}}" alt="">
+                <span style="font-size: 1.5em; vertical-align: middle;">Class Forum</span>
+            </a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
