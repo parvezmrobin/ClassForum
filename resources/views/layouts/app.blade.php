@@ -19,6 +19,20 @@
           type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
           rel='stylesheet' type='text/css'>
+    <style>
+        .dropdown-menu > li {
+            width: 33vw;
+            min-width: 384px;
+        }
+        .no-notification {
+            cursor: default;
+        }
+
+        .navbar-custom .nav li ul.dropdown-menu .no-notification:hover, 
+        .navbar-custom .nav li ul.dropdown-menu .no-notification:focus {
+            color: #333;
+        }
+    </style>
 @yield('style')
 
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -59,6 +73,27 @@
                             <span class="glyphicon glyphicon-plus"></span>
                             Create
                         </a>
+                    </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <span class="glyphicon glyphicon-envelope"></span>
+                            Notification
+                        </a>
+                        <ul class="dropdown-menu">
+                            @forelse(Auth::user()->unreadNotifications as $notification)
+                            <li>
+                                <a href="{{$notification->url}}">
+                                    {{$notification->notification}}
+                                </a>
+                            </li>
+                            @empty
+                                <li>
+                                    <a href="#" class="no-notification">
+                                        No new Notification
+                                    </a>
+                                </li>
+                            @endforelse
+                        </ul>
                     </li>
                     <li>
                         <a href="{{ url('/logout') }}"

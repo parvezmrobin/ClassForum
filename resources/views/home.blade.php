@@ -67,7 +67,7 @@
 
     <!-- Main Content -->
     <div class="container">
-        <div class="row" id="vm" xmlns:v-on="http://www.w3.org/1999/xhtml">
+        <div class="row" xmlns:v-on="http://www.w3.org/1999/xhtml">
             <div class="col-md-8">
                 @foreach($threads as $thread)
                     <div class="post-preview">
@@ -80,7 +80,7 @@
                             </h3>
                         </a>
                         <p class="post-meta">Posted by <a href="#">{{$thread->user->name}}</a>
-                            {{(new Carbon\Carbon($thread->created_at))->diffForHumans(Carbon\Carbon::now())}}
+                            {{(new Carbon\Carbon($thread->created_at))->diffForHumans()}}
                         </p>
                     </div>
                     <hr>
@@ -88,7 +88,7 @@
 
                 {{$threads->links()}}
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 well" id="vm" style="background: none; border: none; box-shadow: none">
                 <h1 class="post-heading" style="margin-top: 30px;">Channels</h1>
                 <hr class="small">
                 <ul class="list-group">
