@@ -16,8 +16,9 @@ Auth::routes();
 Route::middleware(['auth'])->group(function () {
     Route::get('/home', 'ThreadController@index');
     Route::get('/', 'ThreadController@index');
-    Route::get('/thread/{thread}', 'ThreadController@show');
-
+    Route::get('/thread/create', 'ThreadController@store');
+    Route::post('/thread', "ThreadController@store");
+    Route::get('/thread/{thread}', 'ThreadController@show')->name('thread.show');
 
 
     // Api

@@ -4,6 +4,20 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property int id
+ * @property mixed description
+ * @property int user_id
+ * @property int channel_id
+ * @property mixed title
+ * @property mixed followedBy
+ * @property mixed history
+ * @property mixed user
+ * @property mixed channel
+ * @property mixed answers
+ * @property mixed created_at
+ * @property mixed updated_at
+ */
 class Thread extends Model
 {
     public function channel()
@@ -34,5 +48,10 @@ class Thread extends Model
     public function viewedBy()
     {
         return $this->belongsToMany('App\User', 'views');
+    }
+
+    public function history()
+    {
+        return new $this->hasMany('App\History');
     }
 }

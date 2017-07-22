@@ -52,6 +52,23 @@ class ThreadController extends Controller
         return view('home')->withThreads($threads)->withChannels($channels);
     }
 
+    public function create()
+    {
+        return view('create')->withChannels(Channel::all());
+    }
+
+    public function store(Request $request)
+    {
+        $thread = new Thread();
+        $thread->title = $request->title;
+        $thread->description = $request->description;
+        $thread->user_id = Auth::id();
+        $thread->channel_id = $request->channel;
+        $thread->save();
+
+        return \Redirect::route('thread.show', ['thread' => $thread->id]);
+    }
+
     /**
      * Shows a Thread
      * @param int $thread id of a thread
