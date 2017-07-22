@@ -2,6 +2,11 @@
 
 namespace App\Providers;
 
+use App\Events\ThreadAnswered;
+use App\Events\ThreadCreatedByUser;
+use App\Events\ThreadCreatedInChannel;
+use App\Listeners\ThreadAnsweredListener;
+use App\Listeners\ThreadCreatedInChannelListener;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
@@ -15,6 +20,15 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         'App\Events\Event' => [
             'App\Listeners\EventListener',
+        ],
+        ThreadAnswered::class => [
+            ThreadAnsweredListener::class,
+        ],
+        ThreadCreatedByUser::class => [
+            ThreadAnsweredListener::class,
+        ],
+        ThreadCreatedInChannel::class => [
+            ThreadCreatedInChannelListener::class,
         ],
     ];
 
