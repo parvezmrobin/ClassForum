@@ -5,6 +5,15 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+/**
+ * @property mixed name
+ * @property mixed followedBy
+ * @property mixed email
+ * @property mixed bio
+ * @property mixed image
+ * @property mixed sex
+ * @property bool is_approved
+ */
 class User extends Authenticatable
 {
     use Notifiable;
