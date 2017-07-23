@@ -60,7 +60,14 @@
                 <span style="font-size: 1.5em; vertical-align: middle;">Class Forum</span>
             </a>
         </div>
-
+        <div class="nav navbar-nav">
+            <form action="{{url('./search')}}" method="get" class="form-horizontal">
+                <div class=" floating-label-form-group" style="padding-bottom: 0; padding-top: 12px">
+                    <input class="form-control" placeholder="search" type="text" name="key"
+                           style="padding-bottom: 0; color: #fff;">
+                </div>
+            </form>
+        </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
