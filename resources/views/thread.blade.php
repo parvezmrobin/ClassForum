@@ -26,8 +26,12 @@
         .well:last-child {
             border-radius: 0 0 8px 8px;
         }
+
         button:first-child:hover {
             cursor: default;
+        }
+        .btn {
+            padding: 15px 5px;
         }
     </style>
 @endsection
@@ -36,7 +40,7 @@
     <div class="container-fluid" style="height: 2.8em; background: #0085A1">
 
     </div>
-    <div class="container" id="vm" v-cloak  xmlns:v-on="http://www.w3.org/1999/xhtml">
+    <div class="container" id="vm" v-cloak xmlns:v-on="http://www.w3.org/1999/xhtml">
         <div class="row">
             <div class="col-md-8">
 
@@ -59,20 +63,37 @@
 
                 <!--Statistics Starts-->
                 <div id="stat">
-                    <div class="btn-group" role="group" aria-label="...">
-                        <button type="button" class="btn btn-info">{{$thread->viewed_by_count}} views</button>
-                        <button type="button" class="btn"
-                                :class="{'btn-default': !isFollowed, 'btn-danger': isFollowed}"
-                                v-on:click="toggleFollow">
-                            @{{ isFollowed? 'Unfollow' : 'Follow' }}
-                            ({{ $thread->followed_by_count }})
-                        </button>
-                        <button type="button" class="btn"
-                                :class="{'btn-default': !isFavorite, 'btn-danger': isFavorite}"
-                                v-on:click="toggleFavorite">
-                            @{{ isFavorite? 'Unfavorite' : 'Favorite' }}
-                            ({{$thread->favorite_by_count}})
-                        </button>
+                    <div class="col-md-6" style="padding-right: 0; padding-left: 0;">
+                        <div class="btn-group btn-group-justified " role="group" aria-label="...">
+                            <a href="#" type="button" class="btn btn-info">{{$thread->viewed_by_count}} views</a>
+                            <a href="#" type="button" class="btn"
+                               :class="{'btn-default': !isFollowed, 'btn-danger': isFollowed}"
+                               v-on:click="toggleFollow">
+                                <small>
+                                    @{{ isFollowed? 'Unfollow' : 'Follow' }}
+                                    ({{ $thread->followed_by_count }})
+                                </small>
+                            </a>
+                            <a href="#" type="button" class="btn"
+                               :class="{'btn-default': !isFavorite, 'btn-danger': isFavorite}"
+                               v-on:click="toggleFavorite">
+                                <small>
+                                    @{{ isFavorite? 'Unfavorite' : 'Favorite' }}
+                                    ({{$thread->favorite_by_count}})
+                                </small>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-6" style="padding-right: 0; padding-left: 0;">
+                        <div class="btn-group btn-group-justified" role="group">
+                            <a href="#" type="button"
+                               class="btn btn-success"
+                               title="{{$thread->is_solved? 'Mark Unsolved' : 'Mark Solved'}}"
+                               v-on:click="toggleSolved">
+                                @{{ thread.is_solved? 'Solved' : 'Unsolved' }}
+                            </a>
+                            <a href="./edit/{{$thread->id}}" class="btn btn-warning">Edit</a>
+                        </div>
                     </div>
                 </div>
                 <!--Statistics Ends-->
@@ -132,14 +153,14 @@
                         <!--Leave Reply Starts-->
                         <form name="reply" :id="answer.id" class="col-xs-12 interact" novalidate>
                             <div class="row control-group">
-                                <div class="form-group col-xs-10 floating-label-form-group controls">
+                                <div class="form-group col-xs-9 col-sm-10 floating-label-form-group controls">
                                     <label>Leave Reply</label>
                                     <input type="text" class="form-control" placeholder="Leave Reply" id="reply"
                                            required
                                            data-validation-required-message="Please enter a reply.">
                                     <p class="help-block text-danger"></p>
                                 </div>
-                                <div class="col-xs-2" style="padding: 22px 0;">
+                                <div class="col-xs-3 col-sm-2" style="padding: 22px 0;">
                                     <button type="submit" class="btn btn-default">Reply</button>
                                 </div>
                             </div>
@@ -150,7 +171,8 @@
                 <!--Answer Ends-->
 
             </div>
-            <div class="col-md-4 well">
+            <!--Sidebar Starts-->
+            <div class="col-md-4 well" style="border: none; box-shadow: none">
                 <h3 class="post-heading" style="text-align: center">
                     <small><b>Latest in</b></small>
                     {{ucfirst($thread->channel->channel)}}
@@ -166,6 +188,7 @@
                     @endforeach
                 </ul>
             </div>
+            <!--Sidebar Ends-->
         </div>
     </div>
 @endsection
@@ -205,7 +228,7 @@
                         const url = '../ajax/unfollow/thread/' + this.thread.id;
                         axios.delete(url)
                             .then(() => {
-                            this.isFollowed = 0;
+                                this.isFollowed = 0;
                             });
                     } else {
                         const url = '../ajax/follow/thread/' + this.thread.id;
@@ -229,6 +252,9 @@
                                 this.isFavorite = 1;
                             });
                     }
+                },
+                toggleSolved: function () {
+                    console.log('Implement toggleSolved()')
                 }
             }
         });
