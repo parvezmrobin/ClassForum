@@ -14,11 +14,12 @@ class CreateFollowablesTable extends Migration
     public function up()
     {
         Schema::create('followables', function (Blueprint $table) {
-            $table->increments('id');
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('followable_id');
             $table->string('followable_type');
             $table->timestamps();
+
+            $table->unique(['user_id', 'followable_id', 'followable_type']);
 
             $table->foreign('user_id')
                 ->references('id')->on('users')
