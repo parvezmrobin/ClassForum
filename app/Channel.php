@@ -10,7 +10,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property mixed followedBy
  * @property mixed threads
  * @property int thread_id
- * @property mixed followedBy
  * @property mixed created_at
  * @property mixed updated_at
  */
@@ -18,11 +17,11 @@ class Channel extends Model
 {
     public function threads()
     {
-        return $this->hasMany('App\Thread');
+        return $this->hasMany(Thread::class);
     }
 
     public function followedBy()
     {
-        return $this->morphToMany('App\User', 'followable');
+        return $this->morphToMany(User::class, 'followable');
     }
 }

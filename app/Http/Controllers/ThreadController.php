@@ -16,19 +16,15 @@ class ThreadController extends Controller
      * @param User $user
      * @return \Illuminate\View\View
      */
-    public function index(Request $request, User $user)
+    public function index(Request $request)
     {
         // Get the params
-        $page = $request->input('page');
         $channel = $request->input('channel');
 
         // Set the conditions for query
         $conditions = [];
         if ($channel) {
             $conditions[] = ['channel_id', $channel];
-        }
-        if (is_null($page)) {
-            $page = 0;
         }
 
         // Perform the queries
@@ -37,11 +33,15 @@ class ThreadController extends Controller
             ->paginate(10);
 
         $channels = Channel::all();
-        $followedChannels = $user->followedChannels;
+        $followedChannels = Auth::user()->followedChannels;
 
         //Check if the channel is followed by the user
         foreach ($channels as $channel) {
-            if ($followedChannels->contains($channel)) {
+            $channelId = $channel->id;
+            $check = $followedChannels->contains(function ($value) use ($channelId) {
+                return $value->id == $channelId;
+            });
+            if ($check) {
                 $channel->isFollowed = true;
             } else {
                 $channel->isFollowed = false;

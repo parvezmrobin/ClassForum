@@ -13,6 +13,15 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property mixed image
  * @property mixed sex
  * @property bool is_approved
+ * @property mixed followedChannels
+ * @property mixed followedThreads
+ * @property mixed followedUsers
+ * @property mixed threads
+ * @property mixed answers
+ * @property mixed replies
+ * @property mixed roles
+ * @property mixed favorites
+ * @property mixed viewedThreads
  */
 class User extends Authenticatable
 {
@@ -38,51 +47,51 @@ class User extends Authenticatable
 
     public function followedBy()
     {
-        return $this->morphToMany('App\User', 'followable');
+        return $this->morphToMany(User::class, 'followable');
     }
 
     public function followedThreads()
     {
-        return $this->morphedByMany('App\Thread', 'followable');
+        return $this->morphedByMany(Thread::class, 'followable');
     }
 
     public function followedUsers()
     {
-        return $this->morphedByMany('App\User', 'followable');
+        return $this->morphedByMany(User::class, 'followable');
     }
 
     public function followedChannels()
     {
-        return $this->morphedByMany('App\Channel', 'followable');
+        return $this->morphedByMany(Channel::class, 'followable');
     }
 
     public function threads()
     {
-        return $this->hasMany('App\Thread');
+        return $this->hasMany(Thread::class);
     }
 
     public function answers()
     {
-        return $this->hasMany('App\Answer');
+        return $this->hasMany(Answer::class);
     }
 
     public function replies()
     {
-        return $this->hasMany('App\Reply');
+        return $this->hasMany(Reply::class);
     }
 
     public function roles()
     {
-        return $this->belongsToMany('App\Role');
+        return $this->belongsToMany(Role::class);
     }
 
     public function favorites()
     {
-        return $this->belongsToMany('App\Thread', 'favorites');
+        return $this->belongsToMany(Thread::class, 'favorites');
     }
 
     public function viewedThreads()
     {
-        return $this->belongsToMany('App\Thread', 'views');
+        return $this->belongsToMany(Thread::class, 'views');
     }
 }

@@ -44,9 +44,11 @@
             border-bottom-left-radius: 1px;
             border-bottom-color: darkgray;
         }
+
         .btn-xs {
             padding: 5px;
         }
+
         .btn-xs {
             background: none;
             color: #333;
@@ -85,7 +87,10 @@
                                 {{$thread->description}}
                             </h3>
                         </a>
-                        <p class="post-meta">Posted by <a href="#">{{$thread->user->name}}</a>
+                        <p class="post-meta">
+                            Posted by <a href="#">{{$thread->user->name}}</a>
+                            in <a href="{{'./home?channel=' . $thread->channel->id}}">
+                                {{ucfirst($thread->channel->channel)}}</a> Channel
                             {{(new Carbon\Carbon($thread->created_at))->diffForHumans()}}
                         </p>
                     </div>
@@ -104,7 +109,7 @@
                         <a v-if="channel.isFollowed" href="#">
                             <button class="btn btn-xs btn-danger" v-on:click="unfollow(channel.id)">Unfollow</button>
                         </a>
-                        <a v-else href="#" v-on:click="unfollow(channel.id)">
+                        <a v-else href="#">
                             <button class="btn btn-xs btn-primary" v-on:click="follow(channel.id)">Follow</button>
                         </a>
                     </li>
@@ -125,18 +130,18 @@
             },
             methods: {
                 follow: function (id) {
-                    const url = './api/follow/channel?channel=' + id;
-                    axios.put(url)
-                        .then(function (resp) {
-                            const index = _.find(this.channels, {id: id});
+                    const url = './ajax/follow/channel/' + id;
+                    axios.post(url)
+                        .then((resp) => {
+                            const index = _.findIndex(this.channels, {id: id});
                             this.channels[index].isFollowed = true;
                         })
                 },
                 unfollow: function (id) {
-                    const url = './api/unfollow/channel?channel=' + id;
-                    axios.put(url)
-                        .then(function (resp) {
-                            const index = _.find(this.channels, {id: id});
+                    const url = './ajax/unfollow/channel/' + id;
+                    axios.delete(url)
+                        .then((resp) => {
+                            const index = _.findIndex(this.channels, {id: id});
                             this.channels[index].isFollowed = false;
                         })
                 }
