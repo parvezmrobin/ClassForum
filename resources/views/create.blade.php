@@ -33,6 +33,9 @@
 @endsection
 
 @section('content')
+    <div class="container-fluid" style="height: 2.8em; background: #0085A1">
+
+    </div>
     <div class="container">
         <div class="row">
             <h2>Create new thread</h2>
