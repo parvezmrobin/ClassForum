@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Channel;
+use App\EditHistory;
 use Auth;
 use App\Thread;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ThreadController extends Controller
@@ -52,21 +54,48 @@ class ThreadController extends Controller
         return view('home')->withThreads($threads)->withChannels($channels);
     }
 
+    /**
+     * Returns the view to create a new Thread
+     * @return \Illuminate\Http\Response
+     */
     public function create()
     {
         return view('create')->withChannels(Channel::all());
     }
 
+    /**
+     * Stores a new Thread to database
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store(Request $request)
     {
-        $thread = new Thread();
+        $id = $request->id;
+        if ($id != null) {
+            $thread = Thread::find($id);
+            $history = new EditHistory();
+            $history->title = $thread->title;
+            $history->description = $thread->description;
+            $history->thread_id = $id;
+            $history->channel_id = $thread->channel_id;
+            $history->created_at = $thread->updated_at;
+            $history->updated_at = Carbon::now();
+            $history->save();
+        }
+        $thread = $this->saveThread($request, $id);
+        return \Redirect::route('thread.show', ['thread' => $thread->id]);
+    }
+
+    private function saveThread(Request $request, $id)
+    {
+        $thread = is_null($id)? new Thread() : Thread::find($id);
         $thread->title = $request->title;
         $thread->description = $request->description;
         $thread->user_id = Auth::id();
         $thread->channel_id = $request->channel;
         $thread->save();
 
-        return \Redirect::route('thread.show', ['thread' => $thread->id]);
+        return $thread;
     }
 
     /**
@@ -101,6 +130,18 @@ class ThreadController extends Controller
                 'isFollowed' => !! $thread->followedBy()->where('user_id', Auth::id())->count(),
                 'isFavorite' => !! $thread->favoriteBy()->where('user_id', Auth::id())->count(),
             ]);
+    }
+
+    public function showHistory(Thread $thread)
+    {
+        return view('edit-history')->withThread($thread);
+    }
+
+    public function edit(Thread $thread)
+    {
+        return view('create')
+            ->withChannels(Channel::all())
+            ->withThread($thread);
     }
 
     /**

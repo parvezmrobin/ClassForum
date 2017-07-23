@@ -18,8 +18,6 @@ class CreateViewsTable extends Migration
             $table->unsignedInteger('thread_id');
             $table->timestamps();
 
-            $table->unique(['user_id', 'thread_id']);
-
             $table->foreign('user_id')
                 ->references('id')->on('users')
                 ->onUpdate('cascade')

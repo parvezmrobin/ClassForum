@@ -38,26 +38,31 @@
     </div>
     <div class="container">
         <div class="row">
-            <h2>Create new thread</h2>
+            <h2>{{isset($thread)? 'Update': 'Create new'}} thread</h2>
             <hr>
             <form action="{{url('thread')}}" class="interact well well-lg" novalidate method="post">
                 {{csrf_field()}}
+                @if(isset($thread))
+                    <input type="hidden" name="id" value="{{$thread->id}}">
+                @endif
                 <div class="row control-group">
                     <div class="form-group col-xs-12 floating-label-form-group controls">
                         <label for="title">Thread Title</label>
                         <input type="text" class="form-control"
                                placeholder="Thread Title" name="title" id="title" required
-                               data-validation-required-message="Please enter a title.">
+                               data-validation-required-message="Please enter a title."
+                               value="{{isset($thread)? $thread->title: ''}}" >
                         <p class="help-block text-danger"></p>
                     </div>
                 </div>
                 <div class="row control-group">
                     <div class="form-group col-xs-12 controls" style="border-bottom: 1px solid #eeeeee;">
                         <label class="custom-select-label" for="channel">Choose Channel</label>
-                        <select class="form-control custom-select " id="channel" name="channel" required
+                        <select class="form-control custom-select " style="height: auto"
+                                id="channel" name="channel" required
                                 data-validation-required-message="Please choose a channel.">
                             @foreach($channels as $channel)
-                                <option value="{{$channel->id}}">{{$channel->channel}}</option>
+                                <option {{(isset($thread) && $thread->channel_id == $channel->id)? 'selected': ''}} value="{{$channel->id}}">{{$channel->channel}}</option>
                             @endforeach
                         </select>
                         <p class="help-block text-danger"></p>
@@ -69,13 +74,14 @@
                         <textarea class="form-control"
                                   placeholder="Thread Description"
                                   id="description" name="description" required
-                                  data-validation-required-message="Please enter a description."></textarea>
+                                  data-validation-required-message="Please enter a description."
+                        >{{isset($thread)? $thread->description: ''}}</textarea>
                         <p class="help-block text-danger"></p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-xs-12">
-                        <button type="submit" class="btn btn-default">Create</button>
+                        <button type="submit" class="btn btn-default">{{isset($thread)? 'Update': 'Create'}}</button>
                     </div>
                 </div>
             </form>

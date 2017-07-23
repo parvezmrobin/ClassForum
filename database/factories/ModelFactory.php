@@ -66,9 +66,11 @@ $factory->define(App\Reply::class, function(Faker\Generator $faker) {
 
 $factory->define(App\EditHistory::class, function(Faker\Generator $faker) {
     $threads = App\Thread::all();
+    $channels = App\Channel::all();
     return [
         'title' => $faker->sentence,
         'description' => $faker->realText(),
+        'channel_id' => $channels->random()->id,
         'thread_id' => $threads->random()->id,
     ];
 });

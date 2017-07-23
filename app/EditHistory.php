@@ -21,4 +21,9 @@ class EditHistory extends Model
     {
         return $this->belongsTo('App\Thread');
     }
+
+    public function channel()
+    {
+        return $this->belongsTo(Channel::class);
+    }
 }

@@ -18,6 +18,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/', 'ThreadController@index');
     Route::get('/thread/create', 'ThreadController@create');
     Route::post('/thread', "ThreadController@store");
+    Route::get('/thread/edit/{thread}', 'ThreadController@edit');
+    Route::get('/thread/history/{thread}', 'ThreadController@showHistory');
     Route::get('/thread/{thread}', 'ThreadController@show')->name('thread.show');
     Route::get('/profile/{user}', 'ProfileController@show');
 

@@ -19,5 +19,6 @@ class DatabaseSeeder extends Seeder
         $this->call(EditHistorySeeder::class);
         $this->call(AnswerSeeder::class);
         $this->call(ReplySeeder::class);
+        $this->call(FollowSeeder::class);
     }
 }

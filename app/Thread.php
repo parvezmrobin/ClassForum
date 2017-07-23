@@ -50,8 +50,8 @@ class Thread extends Model
         return $this->belongsToMany('App\User', 'views');
     }
 
-    public function history()
+    public function histories()
     {
-        return new $this->hasMany('App\History');
+        return $this->hasMany(EditHistory::class);
     }
 }

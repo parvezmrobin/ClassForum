@@ -17,11 +17,16 @@ class CreateEditHistoriesTable extends Migration
             $table->increments('id');
             $table->string('title');
             $table->text('description');
+            $table->unsignedInteger('channel_id');
             $table->unsignedInteger('thread_id');
             $table->timestamps();
 
             $table->foreign('thread_id')
                 ->references('id')->on('threads')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+            $table->foreign('channel_id')
+                ->references('id')->on('channels')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
         });

@@ -93,6 +93,7 @@
                                 @{{ thread.is_solved? 'Solved' : 'Unsolved' }}
                             </a>
                             <a href="./edit/{{$thread->id}}" class="btn btn-warning">Edit</a>
+                            <a href="./history/{{$thread->id}}" class="btn btn-info">History</a>
                         </div>
                     </div>
                 </div>
