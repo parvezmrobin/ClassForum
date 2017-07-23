@@ -97,7 +97,9 @@ class ThreadController extends Controller
         return view('thread')
             ->with([
                 'thread' => $thread,
-                'otherThreads' => $otherThreads
+                'otherThreads' => $otherThreads,
+                'isFollowed' => !! $thread->followedBy()->where('user_id', Auth::id())->count(),
+                'isFavorite' => !! $thread->favoriteBy()->where('user_id', Auth::id())->count(),
             ]);
     }
 
@@ -108,7 +110,7 @@ class ThreadController extends Controller
      */
     public function followThread(Thread $thread)
     {
-        $thread->followedBy()->attach($thread->id);
+        $thread->followedBy()->attach(Auth::id());
         return response()->json(["status" => "succeeded"]);
     }
 
@@ -119,7 +121,7 @@ class ThreadController extends Controller
      */
     public function unfollowThread(Thread $thread)
     {
-        $thread->followedBy()->detach($thread->id);
+        $thread->followedBy()->detach(Auth::id());
         return response()->json(["status" => "succeeded"]);
     }
 
@@ -130,7 +132,7 @@ class ThreadController extends Controller
      */
     public function favoriteThread(Thread $thread)
     {
-        $thread->favoriteBy()->attach($thread->id);
+        $thread->favoriteBy()->attach(Auth::id());
         return response()->json(["status" => "succeeded"]);
     }
 
@@ -141,7 +143,7 @@ class ThreadController extends Controller
      */
     public function unfavoriteThread(Thread $thread)
     {
-        $thread->favoriteBy()->detach($thread->id);
+        $thread->favoriteBy()->detach(Auth::id());
         return response()->json(["status" => "succeeded"]);
     }
 }

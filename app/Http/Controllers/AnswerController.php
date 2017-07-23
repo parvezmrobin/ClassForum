@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Answer;
+use App\Events\ThreadAnswered;
+use App\Thread;
 use Illuminate\Http\Request;
 
 class AnswerController extends Controller
@@ -22,6 +24,7 @@ class AnswerController extends Controller
         $answer->save();
 
         $answer->load('replies', 'user');
+        event(new ThreadAnswered(Thread::find($request->thread), $answer));
 
         return response()->json([
             "status" => "succeeded",

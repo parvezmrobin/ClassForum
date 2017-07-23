@@ -16,7 +16,7 @@ class ThreadAnsweredNotification extends Notification
     /**
      * Create a new notification instance.
      *
-     * @return void
+     * @param ThreadAnswered $threadAnswered
      */
     public function __construct(ThreadAnswered $threadAnswered)
     {
@@ -43,7 +43,7 @@ class ThreadAnsweredNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            'notification' => $this->threadAnswered->thread->title . ' has a new answer.',
+            'notification' => "'{$this->threadAnswered->thread->title}' has a new answer.",
             'url' => url('thread/' . $this->threadAnswered->thread->id) . '#' . $this->threadAnswered->answer->id,
         ];
     }

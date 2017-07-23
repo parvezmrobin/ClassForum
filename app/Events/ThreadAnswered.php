@@ -17,7 +17,8 @@ class ThreadAnswered implements ShouldQueue
     /**
      * Create a new event instance.
      *
-     * @return void
+     * @param Thread $thread
+     * @param Answer $answer
      */
     public function __construct(Thread $thread, Answer $answer)
     {

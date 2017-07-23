@@ -3,10 +3,12 @@
 namespace App\Providers;
 
 use App\Events\ThreadAnswered;
+use App\Events\ThreadCreated;
 use App\Events\ThreadCreatedByUser;
 use App\Events\ThreadCreatedInChannel;
 use App\Listeners\ThreadAnsweredListener;
 use App\Listeners\ThreadCreatedInChannelListener;
+use App\Listeners\ThreadCreatedListener;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
@@ -22,14 +24,11 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\EventListener',
         ],
         ThreadAnswered::class => [
-            ThreadAnsweredListener::class,
+            ThreadAnsweredListener::class
         ],
-        ThreadCreatedByUser::class => [
-            ThreadAnsweredListener::class,
-        ],
-        ThreadCreatedInChannel::class => [
-            ThreadCreatedInChannelListener::class,
-        ],
+        ThreadCreated::class => [
+            ThreadCreatedListener::class
+        ]
     ];
 
     /**

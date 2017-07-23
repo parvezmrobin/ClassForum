@@ -2,11 +2,11 @@
 
 namespace App\Listeners;
 
-use App\Events\ThreadCreatedByUser;
+use App\Events\ThreadCreated;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class ThreadCreatedByUserListener
+class ThreadCreatedListener
 {
     /**
      * Create the event listener.
@@ -21,13 +21,11 @@ class ThreadCreatedByUserListener
     /**
      * Handle the event.
      *
-     * @param  ThreadCreatedByUser  $event
+     * @param  ThreadCreated  $event
      * @return void
      */
-    public function handle(ThreadCreatedByUser $event)
+    public function handle(ThreadCreated $event)
     {
-        $users = $event->user->followedBy;
-
-        \Notification::send($users, $event);
+        //
     }
 }

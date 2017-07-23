@@ -33,10 +33,10 @@
 @endsection
 
 @section('content')
-    <div class="container-fluid" style="height: 3em; background: #0085A1">
+    <div class="container-fluid" style="height: 2.8em; background: #0085A1">
 
     </div>
-    <div class="container" id="vm" v-cloak>
+    <div class="container" id="vm" v-cloak  xmlns:v-on="http://www.w3.org/1999/xhtml">
         <div class="row">
             <div class="col-md-8">
 
@@ -61,11 +61,17 @@
                 <div id="stat">
                     <div class="btn-group" role="group" aria-label="...">
                         <button type="button" class="btn btn-info">{{$thread->viewed_by_count}} views</button>
-                        <button type="button" class="btn btn-default">
-                            Follow ({{ $thread->followed_by_count }})
+                        <button type="button" class="btn"
+                                :class="{'btn-default': !isFollowed, 'btn-danger': isFollowed}"
+                                v-on:click="toggleFollow">
+                            @{{ isFollowed? 'Unfollow' : 'Follow' }}
+                            ({{ $thread->followed_by_count }})
                         </button>
-                        <button type="button" class="btn btn-default">
-                            Favorite ({{$thread->favorite_by_count}})
+                        <button type="button" class="btn"
+                                :class="{'btn-default': !isFavorite, 'btn-danger': isFavorite}"
+                                v-on:click="toggleFavorite">
+                            @{{ isFavorite? 'Unfavorite' : 'Favorite' }}
+                            ({{$thread->favorite_by_count}})
                         </button>
                     </div>
                 </div>
@@ -173,7 +179,9 @@
         const app = new Vue({
             el: '#vm',
             data: {
-                thread: {!! $thread !!}
+                thread: {!! $thread !!},
+                isFollowed: {!! $isFollowed ? 1 : 0 !!},
+                isFavorite: {!! $isFavorite ? 1 : 0 !!}
             },
             methods: {
                 answer: function (ans) {
@@ -191,6 +199,36 @@
 
                             answer.replies.splice(0, 0, resp.data.reply)
                         })
+                },
+                toggleFollow: function () {
+                    if (this.isFollowed) {
+                        const url = '../ajax/unfollow/thread/' + this.thread.id;
+                        axios.delete(url)
+                            .then(() => {
+                            this.isFollowed = 0;
+                            });
+                    } else {
+                        const url = '../ajax/follow/thread/' + this.thread.id;
+                        axios.post(url)
+                            .then(() => {
+                                this.isFollowed = 1;
+                            });
+                    }
+                },
+                toggleFavorite: function () {
+                    if (this.isFavorite) {
+                        const url = '../ajax/unfavorite/thread/' + this.thread.id;
+                        axios.delete(url)
+                            .then(() => {
+                                this.isFavorite = 0;
+                            });
+                    } else {
+                        const url = '../ajax/favorite/thread/' + this.thread.id;
+                        axios.post(url)
+                            .then(() => {
+                                this.isFavorite = 1;
+                            });
+                    }
                 }
             }
         });

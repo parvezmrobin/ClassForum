@@ -27,6 +27,11 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('ajax/reply', 'ReplyController@store');
     Route::delete('ajax/reply/{reply}', 'ReplyController@destroy');
+
+    Route::post('ajax/follow/thread/{thread}', 'ThreadController@followThread');
+    Route::delete('ajax/unfollow/thread/{thread}', 'ThreadController@unfollowThread');
+    Route::post('ajax/favorite/thread/{thread}', 'ThreadController@favoriteThread');
+    Route::delete('ajax/unfavorite/thread/{thread}', 'ThreadController@unfavoriteThread');
     // TODO implement follow/unfollow channel
     Route::post('ajax/follow/channel', 'ChannelController@follow');
     Route::delete('ajax/unfollow/channel', 'ChannelController@unfollow');

@@ -85,8 +85,10 @@
                         <ul class="dropdown-menu">
                             @forelse(Auth::user()->unreadNotifications as $notification)
                             <li>
-                                <a href="{{$notification->url}}">
-                                    {{$notification->notification}}
+                                <a
+                                        href="{{$notification->data["url"]}}?notif_id={{$notification->id}}"
+                                        style="white-space:normal;">
+                                    {{$notification->data["notification"]}}
                                 </a>
                             </li>
                             @empty

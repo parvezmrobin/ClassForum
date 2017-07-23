@@ -44,7 +44,13 @@
             border-bottom-left-radius: 1px;
             border-bottom-color: darkgray;
         }
-
+        .btn-xs {
+            padding: 5px;
+        }
+        .btn-xs {
+            background: none;
+            color: #333;
+        }
     </style>
 @endsection
 
@@ -66,7 +72,7 @@
     </header>
 
     <!-- Main Content -->
-    <div class="container">
+    <div class="container" v-cloak>
         <div class="row" xmlns:v-on="http://www.w3.org/1999/xhtml">
             <div class="col-md-8">
                 @foreach($threads as $thread)
@@ -95,8 +101,12 @@
 
                     <li v-for="channel in channels" class="list-group-item">
                         <a :href="'./home?channel=' + channel.id">@{{ channel.channel }}</a>
-                        (<a v-if="channel.isFollowed" href="#" v-on:click="follow(channel.id)">Follow</a>)
-                        (<a v-else href="#" v-on:click="unfollow(channel.id)">Unfollow</a>)
+                        <a v-if="channel.isFollowed" href="#">
+                            <button class="btn btn-xs btn-danger" v-on:click="unfollow(channel.id)">Unfollow</button>
+                        </a>
+                        <a v-else href="#" v-on:click="unfollow(channel.id)">
+                            <button class="btn btn-xs btn-primary" v-on:click="follow(channel.id)">Follow</button>
+                        </a>
                     </li>
 
                 </ul>
