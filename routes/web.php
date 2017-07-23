@@ -16,10 +16,10 @@ Auth::routes();
 Route::middleware(['auth'])->group(function () {
     Route::get('/home', 'ThreadController@index');
     Route::get('/', 'ThreadController@index');
-    Route::get('/thread/create', 'ThreadController@store');
+    Route::get('/thread/create', 'ThreadController@create');
     Route::post('/thread', "ThreadController@store");
     Route::get('/thread/{thread}', 'ThreadController@show')->name('thread.show');
-
+    Route::get('/profile/{user}', 'ProfileController@show');
 
     // Api
     Route::post('ajax/answer', 'AnswerController@store');

@@ -66,28 +66,33 @@
             <ul class="nav navbar-nav navbar-right">
                 @if(Auth::check())
                     <li>
-                        <a href="{{url('/')}}">
+                        <a href="{{url('/home')}}" title="Go To Home">
                             <span class="glyphicon glyphicon-home"></span>
-                            Home
+                            <span class="hidden-sm">Home</span>
                         </a>
                     </li>
                     <li>
-                        <a href="{{url('/create')}}">
+                        <a href="{{url('/profile/' . Auth::id())}}" title="Go To Profile">
+                            <span class="glyphicon glyphicon-user"></span>
+                            <span class="hidden-sm">Profile</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{url('/thread/create')}}" title="Create Thread">
                             <span class="glyphicon glyphicon-plus"></span>
-                            Create
+                            <span class="hidden-sm">Create</span>
                         </a>
                     </li>
                     <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" title="See Notifications">
                             <span class="glyphicon glyphicon-envelope"></span>
-                            Notification
+                            <span class="hidden-sm">Notification ({{Auth::user()->unreadNotifications()->count()}})</span>
                         </a>
                         <ul class="dropdown-menu">
                             @forelse(Auth::user()->unreadNotifications as $notification)
                             <li>
-                                <a
-                                        href="{{$notification->data["url"]}}?notif_id={{$notification->id}}"
-                                        style="white-space:normal;">
+                                <a href="{{$notification->data["url"]}}?notif_id={{$notification->id}}"
+                                   style="white-space:normal;">
                                     {{$notification->data["notification"]}}
                                 </a>
                             </li>
@@ -101,10 +106,10 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="{{ url('/logout') }}"
+                        <a href="{{ url('/logout') }}" title="Logout"
                            onclick="event.preventDefault();document.getElementById('logout-form').submit();">
                             <span class="glyphicon glyphicon-log-out"></span>
-                            Logout
+                            <span class="hidden-sm">Logout</span>
                         </a>
 
                         <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
