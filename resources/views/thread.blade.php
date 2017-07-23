@@ -117,7 +117,7 @@
                 <!--Leave Answer Ends-->
 
                 <!--Answer Starts-->
-                <div v-for="answer in thread.answers" class="well well-sm">
+                <div v-for="answer in thread.answers" :id="answer.id" class="well well-sm">
                     <div class="row">
                         <div class="col-xs-2">
                             <img class="img-thumbnail img-responsive" :src="answer.user.image"
