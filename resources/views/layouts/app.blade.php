@@ -36,6 +36,14 @@
             .navbar-header > .nav {
                 margin: -5px 5px 0px;
             }
+            input[name="key"]{
+                color: #337ab7;
+            }
+        }
+        @media (min-width: 768px) {
+            input[name="key"]{
+                color: white;
+            }
         }
     </style>
 @yield('style')
@@ -66,9 +74,9 @@
             </a>
             <div class="nav navbar-nav" style="float: left; ">
                 <form action="{{url('./search')}}" method="get" class="form-horizontal">
-                    <div class=" floating-label-form-group" style="padding-bottom: 0; padding-top: 12px">
+                    <div class="floating-label-form-group" style="padding-bottom: 0; padding-top: 12px">
                         <input class="form-control" placeholder="search" type="text" name="key"
-                               style="padding-bottom: 0; color: #fff;">
+                               style="padding-bottom: 0;">
                     </div>
                 </form>
             </div>

@@ -15,7 +15,7 @@
 $factory->define(App\User::class, function (Faker\Generator $faker) {
     static $password;
 
-    return [
+    $arr = [
         'name' => $faker->name,
         'bio' => $faker->paragraph,
         'image' => $faker->imageUrl(),
@@ -25,6 +25,9 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'password' => $password ?: $password = bcrypt('secret'),
         'remember_token' => str_random(10),
     ];
+    $arr['is_admin'] = rand(0, $arr['is_approved']);
+
+    return $arr;
 });
 
 $factory->define(App\Channel::class, function(Faker\Generator $faker) {
@@ -69,7 +72,7 @@ $factory->define(App\EditHistory::class, function(Faker\Generator $faker) {
     $channels = App\Channel::all();
     return [
         'title' => $faker->sentence,
-        'description' => $faker->realText(),
+        'description' => $faker->realText(500),
         'channel_id' => $channels->random()->id,
         'thread_id' => $threads->random()->id,
     ];
