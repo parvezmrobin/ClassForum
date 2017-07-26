@@ -3,7 +3,7 @@
 @section('title', ' - ' . $user->name)
 
 @section('style')
-    <style>
+    <style type="text/css">
         .pagination {
             font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
             font-weight: bold;
@@ -62,24 +62,39 @@
     <div class="container-fluid" style="height: 2.8em; background: #0085A1">
 
     </div>
-    <div class="container">
+    <div class="container" xmlns:v-on="http://www.w3.org/1999/xhtml">
         <div class="row">
             <div class="col-sm-8">
-                <!--User Detail Starts-->
-                <div class="post-preview">
-                    <a href="./{{$user->id}}">
-                        <h2 class="post-title">{{$user->name}}</h2>
-                    </a>
+                <div class="row">
+                    <div class="col-xs-4">
+                        <img class="img img-responsive img-thumbnail"
+                             src="{{$user->image}}" alt="{{$user->name}}"
+                             style="margin-top: 30px;">
+                    </div>
+                    <div class="col-xs-8">
+                        <!--User Detail Starts-->
+                        <div class="post-preview">
+                            <a href="./{{$user->id}}">
+                                <h2 class="post-title">{{$user->name}}</h2>
+                            </a>
+                        </div>
+                        <a href="mailto:{{$user->email}}"><h4>{{$user->email}}</h4></a>
+                        <h4>{{$user->threads()->count()}} Threads, {{$user->answers()->count()}} Answers</h4>
+                        @if($user->id != Auth::id())
+                            <button id="vm" v-cloak class="btn" :class="{'btn-default': !isFollowed, 'btn-warning': isFollowed}"
+                                    v-on:click="toggleFollow">
+                                @{{ isFollowed? 'Unfollow' : 'Follow'}}
+                            </button>
+                    @endif
+                    <!--User Detail Ends-->
+                    </div>
                 </div>
-                <a href="mailto:{{$user->email}}"><h4>{{$user->email}}</h4></a>
-                <h4>{{$user->threads()->count()}} Threads, {{$user->answers()->count()}} Answers</h4>
-                <!--User Detail Ends-->
                 <hr>
 
                 <!--Thread Listing Starts-->
-                @each('partials.preview', $threads = $user->threads()->paginate(10), 'thread')
-                {{$threads->links()}}
-                <!--Thread Listing Ends-->
+            @each('partials.preview', $threads = $user->threads()->paginate(10), 'thread')
+            {{$threads->links()}}
+            <!--Thread Listing Ends-->
             </div>
 
             <!--Favorite Threads Starts-->
@@ -89,14 +104,42 @@
                 <ul class="list-group">
 
                     @foreach($user->favorites as $thread)
-                    <li class="list-group-item">
-                        <a href="../thread/{{$thread->id}}">{{ $thread->title }}</a>
-                        <small>by <i>{{$thread->user->name}}</i></small>
-                    </li>
+                        <li class="list-group-item">
+                            <a href="../thread/{{$thread->id}}">{{ $thread->title }}</a>
+                            <small>by <i>{{$thread->user->name}}</i></small>
+                        </li>
                     @endforeach
                 </ul>
             </div>
             <!--Favorite Threads Ends-->
         </div>
     </div>
+@endsection
+
+@section('script')
+    @if($user->id != Auth::id())
+        <script>
+            const app = new Vue({
+                el: '#vm',
+                data: {
+                    isFollowed: {{$isFollower? 1: 0}}
+                },
+                methods: {
+                    toggleFollow: function () {
+                        if (this.isFollowed) {
+                            axios.delete('../ajax/unfollow/user/{{$user->id}}')
+                                .then((resp) => {
+                                    this.isFollowed = false;
+                                });
+                        } else {
+                            axios.post('../ajax/follow/user/{{$user->id}}')
+                                .then((resp) => {
+                                    this.isFollowed = true;
+                                });
+                        }
+                    }
+                }
+            })
+        </script>
+    @endif
 @endsection
