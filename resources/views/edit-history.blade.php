@@ -44,13 +44,13 @@
             <div class="col-sm-8 col-sm-offset-2">
                 <div class="row">
                     <!--User Detail Starts-->
-                    <div class="post-preview">
+                    <div class="">
                         <a href="{{url('thread/' . $thread->id)}}" class="btn btn-default pull-right">
                             <span class="glyphicon glyphicon-arrow-left"></span>
                             Back to Thread
                         </a>
-                        <a href="./{{$thread->user->id}}">
-                            <h2 class="post-title">{{$thread->user->name}}</h2>
+                        <a href="../../user/{{$thread->user->id}}">
+                            <h1 class="post-title">{{$thread->user->name}}</h1>
                         </a>
                     </div>
                     <a href="mailto:{{$thread->user->email}}"><h4>{{$thread->user->email}}</h4></a>

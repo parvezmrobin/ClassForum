@@ -21,9 +21,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/thread/edit/{thread}', 'ThreadController@edit');
     Route::get('/thread/history/{thread}', 'ThreadController@showHistory');
     Route::get('/thread/{thread}', 'ThreadController@show')->name('thread.show');
-    Route::get('/profile/{user}', 'ProfileController@show');
-
-    // Api
+    Route::get('/user/{user}', 'ProfileController@show');
+    Route::get('/admin/dashboard', function (){
+        return view('dashboard');
+    });
+    // AJAX
     Route::post('ajax/answer', 'AnswerController@store');
     Route::delete('ajax/answer/{answer}', 'AnswerController@destroy');
 
@@ -34,7 +36,10 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('ajax/unfollow/thread/{thread}', 'ThreadController@unfollowThread');
     Route::post('ajax/favorite/thread/{thread}', 'ThreadController@favoriteThread');
     Route::delete('ajax/unfavorite/thread/{thread}', 'ThreadController@unfavoriteThread');
-    // TODO implement follow/unfollow channel
+
     Route::post('ajax/follow/channel/{channel}', 'ChannelController@follow');
     Route::delete('ajax/unfollow/channel/{channel}', 'ChannelController@unfollow');
+
+    Route::post('ajax/follow/user/{user}', 'ProfileController@follow');
+    Route::delete('ajax/unfollow/user/{user}', 'ProfileController@unfollow');
 });

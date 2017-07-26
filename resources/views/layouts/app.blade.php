@@ -20,7 +20,8 @@
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
           rel='stylesheet' type='text/css'>
     <style>
-        .dropdown-menu > li {
+        .dropdown-menu > li.notification,
+        .dropdown-menu > li > .no-notification {
             width: 33vw;
             min-width: 384px;
         }
@@ -86,18 +87,13 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
                 @if(Auth::check())
-                    <li>
-                        <a href="{{url('/home')}}" title="Go To Home">
-                            <span class="glyphicon glyphicon-home"></span>
-                            <span class="hidden-sm">Home</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{url('/profile/' . Auth::id())}}" title="Go To Profile">
-                            <span class="glyphicon glyphicon-user"></span>
-                            <span class="hidden-sm">Profile</span>
-                        </a>
-                    </li>
+                    {{--<li>--}}
+                        {{--<a href="{{url('/home')}}" title="Go To Home">--}}
+                            {{--<span class="glyphicon glyphicon-home"></span>--}}
+                            {{--<span class="hidden-sm">Home</span>--}}
+                        {{--</a>--}}
+                    {{--</li>--}}
+
                     <li>
                         <a href="{{url('/thread/create')}}" title="Create Thread">
                             <span class="glyphicon glyphicon-plus"></span>
@@ -111,7 +107,7 @@
                         </a>
                         <ul class="dropdown-menu">
                             @forelse(Auth::user()->unreadNotifications as $notification)
-                            <li>
+                            <li class="notification">
                                 <a href="{{$notification->data["url"]}}?notif_id={{$notification->id}}"
                                    style="white-space:normal;">
                                     {{$notification->data["notification"]}}
@@ -126,12 +122,35 @@
                             @endforelse
                         </ul>
                     </li>
-                    <li>
-                        <a href="{{ url('/logout') }}" title="Logout"
-                           onclick="event.preventDefault();document.getElementById('logout-form').submit();">
-                            <span class="glyphicon glyphicon-log-out"></span>
-                            <span class="hidden-sm">Logout</span>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" title="Logout"
+                           >
+                            <span class="glyphicon glyphicon-user"></span>
+                            <span class="hidden-sm"> {{Auth::user()->name}}</span>
+                            <span class="caret"></span>
                         </a>
+                        <ul class="dropdown-menu">
+                            @if(Auth::user()->is_admin)
+                                <li>
+                                    <a href="{{url('/admin/dashboard')}}" title="Go To Dashboard">
+                                        <span class="glyphicon glyphicon-dashboard"></span>
+                                        <span>Dashboard</span>
+                                    </a>
+                                </li>
+                            @endif
+                                <li>
+                                    <a href="{{url('/user/' . Auth::id())}}" title="Go To Profile">
+                                        <span class="glyphicon glyphicon-user"></span>
+                                        <span>Profile</span>
+                                    </a>
+                                </li>
+                            <li>
+                                <a href="{{ url('/logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                                    <span class="glyphicon glyphicon-log-out"></span>
+                                    <span>Logout</span>
+                                </a>
+                            </li>
+                        </ul>
 
                         <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
                             {{ csrf_field() }}
