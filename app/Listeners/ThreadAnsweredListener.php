@@ -4,6 +4,7 @@ namespace App\Listeners;
 
 use App\Events\ThreadAnswered;
 use App\Notifications\ThreadAnsweredNotification;
+use Illuminate\Notifications\Notification;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
@@ -28,6 +29,6 @@ class ThreadAnsweredListener
     public function handle(ThreadAnswered $event)
     {
         $users = $event->thread->followedBy;
-        \Notification::send($users, new ThreadAnsweredNotification($event));
+        Notification::send($users, new ThreadAnsweredNotification($event));
     }
 }
