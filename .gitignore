@@ -11,3 +11,4 @@ npm-debug.log
 .env.example
 
 _ide_helper.php
+composer.phar

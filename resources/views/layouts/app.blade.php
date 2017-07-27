@@ -72,14 +72,16 @@
                 <img class="img-responsive" style="width: 25px; display: inline; cursor: pointer;" src="{{asset('favicon.ico')}}" alt="">
                 <span style="font-size: 1.5em; vertical-align: middle;">Class Forum</span>
             </a>
-            <div class="nav navbar-nav" style="float: left; ">
-                <form action="{{url('./search')}}" method="get" class="form-horizontal">
-                    <div class="floating-label-form-group" style="padding-bottom: 0; padding-top: 12px">
-                        <input class="form-control" placeholder="search" type="text" name="key"
-                               style="padding-bottom: 0;">
-                    </div>
-                </form>
-            </div>
+            @if(Auth::check())
+                <div class="nav navbar-nav" style="float: left; ">
+                    <form action="{{url('./search')}}" method="get" class="form-horizontal">
+                        <div class="floating-label-form-group" style="padding-bottom: 0; padding-top: 12px">
+                            <input class="form-control" placeholder="search" type="text" name="key"
+                                   style="padding-bottom: 0;">
+                        </div>
+                    </form>
+                </div>
+            @endif
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
