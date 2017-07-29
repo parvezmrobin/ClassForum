@@ -29,9 +29,9 @@ class ThreadCreatedListener
      */
     public function handle(ThreadCreated $event)
     {
-        $users = $event->thread->followedBy;
-        $channel = $event->thread->followedBy;
-        Notification::send($users, new ThreadCreatedByUserNotification($event));
-        Notification::send($channel, new ThreadCreatedInChannelNotification($event));
+        $users1 = $event->user->followedBy;
+        $users2 = $event->channel->followedBy;
+        Notification::send($users1, new ThreadCreatedByUserNotification($event));
+        Notification::send($users2, new ThreadCreatedInChannelNotification($event));
     }
 }
